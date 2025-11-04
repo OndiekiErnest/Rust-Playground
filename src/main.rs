@@ -33,10 +33,11 @@ fn value_in_cents(coin: &Coin) -> u8 {
 }
 
 fn describe_state_quarter(coin: &Coin) -> Option<String> {
-    let state = if let Coin::Quarter(state) = coin {
-        state
-    } else {
-        // return from the function entirely
+    // If the pattern matches,
+    // it will bind the value from the pattern in the outer scope.
+    // If the pattern does not match, the program will flow into the else arm,
+    // and return from the function entirely.
+    let Coin::Quarter(state) = coin else {
         return None;
     };
 
