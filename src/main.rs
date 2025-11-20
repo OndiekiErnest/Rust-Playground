@@ -1,59 +1,32 @@
-#[derive(Debug)] // so we can inspect the state
-enum UsState {
-    Alabama,
-    Alaska,
+use std::collections::HashMap;
+
+#[derive(Debug)]
+enum Value {
+    Str(String),
+    Int(i32),
 }
 
-impl UsState {
-    fn existed_in(&self, year: u16) -> bool {
-        match self {
-            UsState::Alabama => year >= 1819,
-            UsState::Alaska => year >= 1959,
-        }
-    }
-}
-
-enum Coin {
-    Penny,
-    Nickel,
-    Dime,
-    Quarter(UsState),
-}
-
-fn value_in_cents(coin: &Coin) -> u8 {
-    match coin {
-        Coin::Penny => 1,
-        Coin::Nickel => 5,
-        Coin::Dime => 10,
-        Coin::Quarter(state) => {
-            println!("State quarter from {state:?}!");
-            25
-        }
-    }
-}
-
-fn describe_state_quarter(coin: &Coin) -> Option<String> {
-    // If the pattern matches,
-    // it will bind the value from the pattern in the outer scope.
-    // If the pattern does not match, the program will flow into the else arm,
-    // and return from the function entirely.
-    let Coin::Quarter(state) = coin else {
-        return None;
-    };
-
-    if state.existed_in(1900) {
-        Some(format!("{state:?} is pretty old, for America!"))
-    } else {
-        Some(format!("{state:?} is relatively new."))
-    }
+fn create_person() -> HashMap<String, Value> {
+    let mut person = HashMap::new();
+    person.insert("name".into(), Value::Str("John".into()));
+    person.insert("age".into(), Value::Int(40));
+    person
 }
 
 fn main() {
-    let coin = Coin::Quarter(UsState::Alaska);
+    let person = create_person();
+    // Access and print the values
+    if let Some(name) = person.get("name") {
+        match name {
+            Value::Str(s) => println!("Name: {}", s),
+            _ => (),
+        }
+    }
 
-    value_in_cents(&coin);
-
-    if let Some(desc) = describe_state_quarter(&coin) {
-        println!("{}", desc);
+    if let Some(age) = person.get("age") {
+        match age {
+            Value::Int(a) => println!("Age: {}", a),
+            _ => (),
+        }
     }
 }
