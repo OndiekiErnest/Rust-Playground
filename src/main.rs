@@ -1,32 +1,22 @@
-use std::collections::HashMap;
-
-#[derive(Debug)]
-enum Value {
-    Str(String),
-    Int(i32),
+struct Point<X1, Y1> {
+    x: X1,
+    y: Y1,
 }
 
-fn create_person() -> HashMap<String, Value> {
-    let mut person = HashMap::new();
-    person.insert("name".into(), Value::Str("John".into()));
-    person.insert("age".into(), Value::Int(40));
-    person
+impl<X1, Y1> Point<X1, Y1> {
+    fn mixup<X2, Y2>(self, other: Point<X2, Y2>) -> Point<X1, Y2> {
+        Point {
+            x: self.x,
+            y: other.y,
+        }
+    }
 }
 
 fn main() {
-    let person = create_person();
-    // Access and print the values
-    if let Some(name) = person.get("name") {
-        match name {
-            Value::Str(s) => println!("Name: {}", s),
-            _ => (),
-        }
-    }
+    let p1 = Point { x: 5, y: 10 };
+    let p2 = Point { x: "Hello", y: 'c' };
 
-    if let Some(age) = person.get("age") {
-        match age {
-            Value::Int(a) => println!("Age: {}", a),
-            _ => (),
-        }
-    }
+    let p3 = p1.mixup(p2);
+
+    println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
 }
