@@ -1,29 +1,39 @@
-use std::cmp::PartialOrd;
+trait Summary {
+    fn summarize(&self) -> String;
+}
 
-/// get the largest item in a vec
-fn largest<T>(list: &[T]) -> &T
-where
-    T: PartialOrd,
-{
-    let mut largest = &list[0];
+struct SocialPost {
+    username: String,
+    content: String,
+    reply: bool,
+    repost: bool,
+}
 
-    for item in list {
-        if item > largest {
-            largest = item;
-        }
+impl Summary for SocialPost {
+    fn summarize(&self) -> String {
+        format!(
+            "@{}\n{}\nReply: {}\nRepost: {}",
+            self.username, self.content, self.reply, self.repost
+        )
     }
+}
 
-    largest
+/// print the summary of any item that implements the Summary trait
+fn notify(item: &impl Summary) {
+    println!("NEW!\n{}", item.summarize());
+}
+
+fn returns_summarizable() -> impl Summary {
+    SocialPost {
+        username: String::from("horse_ebooks"),
+        content: String::from("of course, as you probably already know, people"),
+        reply: false,
+        repost: false,
+    }
 }
 
 fn main() {
-    let number_list = vec![34, 50, 25, 100, 65];
+    let post = returns_summarizable();
 
-    let result = largest(&number_list);
-    println!("The largest number is {result}");
-
-    let char_list = vec!['y', 'm', 'a', 'q'];
-
-    let result = largest(&char_list);
-    println!("The largest char is {result}");
+    notify(&post);
 }
