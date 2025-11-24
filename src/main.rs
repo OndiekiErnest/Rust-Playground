@@ -1,5 +1,8 @@
 trait Summary {
-    fn summarize(&self) -> String;
+    fn summarize(&self) -> String {
+        // default summary
+        String::from("Read more...")
+    }
 }
 
 struct SocialPost {
