@@ -21,10 +21,18 @@ impl<T: Display + PartialOrd> Pair<T> {
     }
 }
 
+// conditionally implement a trait for any type that implements another trait
+impl<T: Display> ToString for Pair<T> {
+    fn to_string(&self) -> String {
+        format!("Pair(x={}, y={})", self.x, self.y)
+    }
+}
+
 fn main() {
     let pair = Pair::new(23, 89);
 
     pair.cmp_display();
 
     println!("x={}, y={}", pair.x, pair.y);
+    println!("{}", pair.to_string());
 }
