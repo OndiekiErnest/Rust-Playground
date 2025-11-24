@@ -1,42 +1,30 @@
-trait Summary {
-    fn summarize(&self) -> String {
-        // default summary
-        String::from("Read more...")
+use std::fmt::Display;
+
+struct Pair<T> {
+    x: T,
+    y: T,
+}
+
+impl<T> Pair<T> {
+    fn new(x: T, y: T) -> Self {
+        Self { x, y }
     }
 }
 
-struct SocialPost {
-    username: String,
-    content: String,
-    reply: bool,
-    repost: bool,
-}
-
-impl Summary for SocialPost {
-    fn summarize(&self) -> String {
-        format!(
-            "@{}\n{}\nReply: {}\nRepost: {}",
-            self.username, self.content, self.reply, self.repost
-        )
-    }
-}
-
-/// print the summary of any item that implements the Summary trait
-fn notify(item: &impl Summary) {
-    println!("NEW!\n{}", item.summarize());
-}
-
-fn returns_summarizable() -> impl Summary {
-    SocialPost {
-        username: String::from("horse_ebooks"),
-        content: String::from("of course, as you probably already know, people"),
-        reply: false,
-        repost: false,
+impl<T: Display + PartialOrd> Pair<T> {
+    fn cmp_display(&self) {
+        if self.x >= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
     }
 }
 
 fn main() {
-    let post = returns_summarizable();
+    let pair = Pair::new(23, 89);
 
-    notify(&post);
+    pair.cmp_display();
+
+    println!("x={}, y={}", pair.x, pair.y);
 }
