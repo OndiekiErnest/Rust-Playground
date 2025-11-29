@@ -1,13 +1,12 @@
-fn longest<'c>(x: &'c str, y: &'c str) -> &'c str {
-    if x.len() > y.len() { x } else { y }
+struct Excerpt<'a, 'b> {
+    part: &'a str,
+    link: &'b str,
 }
 
 fn main() {
-    let string1 = String::from("long string is long");
-
-    {
-        let string2 = String::from("xyz");
-        let result = longest(string1.as_str(), string2.as_str());
-        println!("The longest string is {result}");
-    }
+    let x = Excerpt {
+        part: "The good part...",
+        link: "link.to",
+    };
+    println!("{}: {}", x.link, x.part);
 }
