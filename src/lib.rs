@@ -1,15 +1,8 @@
-pub struct Guess {
-    value: u32,
-}
-
-impl Guess {
-    pub fn new(value: u32) -> Self {
-        if value < 1 || value > 100 {
-            panic!("The guess value is out of range (1 - 100)!");
-        }
-
-        Guess { value }
+pub fn divide(num: u32, denom: u32) -> Result<u32, String> {
+    if denom == 0 {
+        return Err(String::from("Division by zero error"));
     }
+    Ok(num / denom)
 }
 
 #[cfg(test)]
@@ -17,8 +10,10 @@ mod tests {
     use super::*;
 
     #[test]
-    #[should_panic(expected = "out of range")]
-    fn guess_greater_than_100() {
-        Guess::new(101);
+    fn divide_by_zero() -> Result<(), String> {
+        let rt = divide(2, 0)?;
+
+        assert_eq!(rt, 2);
+        Ok(())
     }
 }
