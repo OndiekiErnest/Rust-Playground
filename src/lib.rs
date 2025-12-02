@@ -8,10 +8,11 @@ mod tests {
 
     #[test]
     fn has_name() {
-        let rt = greeting("John");
+        let name = "John";
+        let rt = greeting(name);
         assert!(
-            rt.contains("John"),
-            "Greeting did not contain name, value was `{rt}`"
+            rt.contains(name),
+            "Greeting did not contain the name `{name}`, return value was `{rt}`"
         );
     }
 }
